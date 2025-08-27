@@ -3,7 +3,7 @@ let myInfo = {
   name: "Кристина",
   age: 30,
   homePets: true,
-  favoriteBook,
+  favoriteBook:undefined,
 };
 //Задание 2
 
