@@ -1,100 +1,82 @@
-/*Задание 1 — Работа с методами push и pop
-Создайте массив с названиями 5 любимых фильмов.
-Добавьте в конец массива еще один фильм с помощью метода push().
-Удалите последний элемент массива с помощью метода pop() и выведите его в консоль.
-Выведите итоговый массив в консоль.*/
+/*Задание 1 — Создайте объект book с тремя свойствами для описания книги: title, author, year. Добавьте метод book, который возвращает строку с информацией о книге, например: "Название: Герой нашего времени, Автор: Михаил Лермонтов, Год издания: 1840". Метод вывода: console.log(book.getSummary());
+ */
 
-let bestFilms = [
-  "Титаник",
-  "Легенды осени",
-  "Вечное сияние чистого разума",
-  "1+1",
-  "Девчата",
-];
-bestFilms.push("Укращение страптивого");
-console.log(bestFilms.pop());
-console.log(bestFilms);
+const book = {
+  title: "Герой нашего времени",
+  autor: "Михаил Лермонтов",
+  year: 1840,
+  getSummary() {
+    return `Название: ${this.title}, Автор: ${this.autor}, Год издания: ${this.year}`;
+  },
+};
+
+console.log(book.getSummary());
 
 /*
-Задание 2 — Работа с методом filter
+Задание 2 — Создайте объект laptop, который содержит следующие свойства:
 
-У вас есть массив чисел: const numbers = [12, 5, 8, 130, 44];
-Отфильтруйте числа, которые больше 10, используя метод filter().
-Выведите новый массив в консоль.*/
+brand — бренд ноутбука (строка),
+model — модель ноутбука (строка),
+processor — процессор (строка),
+price — цена ноутбука (число).
+Что нужно сделать:
 
-const numbers = [12, 5, 8, 130, 44];
-console.log(
-  numbers.filter(function bigNumbers(value) {
-    return value > 10;
-  })
-);
+Используйте цикл for...in, чтобы вывести в консоль все свойства и их значения.
+Преобразуйте объект в массив с помощью Object.entries() и выведите массив в консоль.*/
 
-/*
-Задание 3 — Сортировка и работа с объектами
+const laptop = {
+  brand: "DELL",
+  model: "1255",
+  processor: "INTEL",
+  price: 58000,
+};
 
-У вас есть массив объектов, описывающих книги:
+for (const key in laptop) {
+  const value = laptop[key];
+  console.log(`${key}: ${value}`);
+}
 
-const books = [
-
-{ title: 'Мастер и Маргарита', pages: 450 },
-
-{ title: 'Преступление и наказание', pages: 550 },
-
-{ title: 'Евгений Онегин', pages: 300 }
-
-];
-
-Отсортируйте книги по количеству страниц (от меньшего к большему).
-Выведите массив отсортированных книг в консоль.*/
-
-const books = [
-  { title: "Мастер и Маргарита", pages: 450 },
-
-  { title: "Преступление и наказание", pages: 550 },
-
-  { title: "Евгений Онегин", pages: 300 },
-];
-
-console.log(books.sort((a, b) => a.pages - b.pages));
+console.log(Object.entries(laptop));
 
 /*
-Задание 4 — Комплексная работа с массивами
+Задание 3 — Создайте три объекта:
 
-Используйте для выполнения массив объектов, описывающее имена студентов и их оценки:
+basicInfo с свойствами:
+name — имя пользователя (строка),
+age — возраст (число).
+contactInfo с свойствами:
+email — электронная почта (строка),
+phone — номер телефона (строка).
+preferences с свойствами:
+language — предпочитаемый язык (строка),
+theme — тема интерфейса (строка, например, dark или light).
+Что нужно сделать:
 
-const students = [
+Объедините эти три объекта в новый объект userProfile с помощью Object.assign.
+Выведите результат в консоль.
+Попробуйте изменить одно из свойств в userProfile и выведите объект в консоль.
+Заморозьте объект userProfile с помощью Object.freeze и попытайтесь удалить одно из свойств. Убедитесь, что изменения не применяются.
+*/
 
-{ name: 'Аня', grade: 4 },
+const basicInfo = {
+  name: "Антон",
+  age: 30,
+};
+const contactInfo = {
+  email: "sss@mail.ru",
+  phone: "+79253176766",
+};
+const preferences = {
+  language: "Инглиш",
+  theme: "dark",
+};
+const userProfile = Object.assign(basicInfo, contactInfo, preferences);
 
-{ name: 'Иван', grade: 5 },
+console.log(userProfile);
+userProfile.age = 45;
+console.log(userProfile);
 
-{ name: 'Маша', grade: 3 },
 
-{ name: 'Сергей', grade: 2 },
-
-{ name: 'Катя', grade: 4 }
-
-];
-
-Отфильтруйте студентов с оценкой больше 4.
-Создайте новый массив, который содержит только имена студентов, оценки которых меньше или равно 3.*/
-
-const students = [
-  { name: "Аня", grade: 4 },
-
-  { name: "Иван", grade: 5 },
-
-  { name: "Маша", grade: 3 },
-
-  { name: "Сергей", grade: 2 },
-
-  { name: "Катя", grade: 4 },
-];
-
-let result = students.filter((a) => a.grade >= 4);
-
-console.log(result);
-
-let nameLoser = students.filter((a) => a.grade < 4).map((b)=> b.name );
-
-console.log(nameLoser);
+Object.freeze(userProfile);
+delete userProfile.age;
+console.log(userProfile);
