@@ -1,27 +1,20 @@
-let text = document.querySelectorAll("#taskWork li");
+let text = document.getElementById("btnDblClick");
+const originalText = "Нажми меня дважды";
+let isChanged = false;
 
-console.log(text);
-text.forEach((element) => {
-  element.innerText = "Задача выполнена";
-});
-text.forEach((element) => {
-  element.innerText = "Задача выполнена";
-});
-
-let tasks = ["Купить молоко", "Выучить JavaScript", "Пойти на тренировку"];
-
-let list = document.querySelector("#taskAll");
-list.innerHTML = "";
-
-tasks.forEach((task) => {
-  let li = document.createElement("li");
-  li.textContent = task;
-  list.appendChild(li);
+text.addEventListener("dblclick", function () {
+  if (isChanged) {
+    text.textContent = originalText;
+    text.classList.remove("active");
+  } else {
+    text.textContent = "Кнопка нажата дважды";
+    text.classList.add("active");
+  }
+  isChanged = !isChanged;
 });
 
+const selectColor = document.getElementById("selectColor");
+selectColor.addEventListener("change", function () {
+  document.body.style.backgroundColor = selectColor.value;
+});
 
-const p = document.createElement("p");
-p.textContent = `Домашнее задание: 
-Скачайте разметку с этой страницы. Она пригодится вам для выполнения задач ниже.`;
-
-list.prepend(p);
