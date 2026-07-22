@@ -1,0 +1,62 @@
+// Данные
+const user = [
+  { name: "Анна", age: 25 },
+  { name: "Михаил", age: 15 },
+  { name: "Иван", age: 18 },
+  { name: "Мария", age: 32 },
+  { name: "Дмитрий", age: 12 },
+  { name: "София", age: 20 },
+];
+
+// Получение элементов из DOM
+let showAdultsButton = document.getElementById("showAdults");
+let showChildrenButton = document.getElementById("showChildren");
+let showAllButton = document.getElementById("showAll");
+let userList = document.getElementById("userList");
+function userAge(age) {
+  if (age >= 18) {
+    return "взрослый";
+  } else {
+    return "ребенок";
+  }
+}
+
+// Функция для отображения списка людей
+
+function showUsers(userArray) {
+  userList.innerHTML = "";
+
+  if (event.target.id === "showAll") {
+    userArray.sort((a, b) => a.age - b.age).forEach((user) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${user.name}, ${user.age} лет, статус: ${userAge(user.age)}`;
+        userList.appendChild(listItem);
+       
+    });
+  } else {
+    userArray.forEach((user) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${user.name}, ${user.age} лет`;
+      userList.appendChild(listItem);
+    });
+  }
+}
+
+// Обработчик события вывода взрослых
+
+showAdultsButton.addEventListener("click", () => {
+  const adults = user.filter((user) => user.age >= 18);
+  showUsers(adults);
+});
+
+// Обработчик события вывода детей
+
+showChildrenButton.addEventListener("click", () => {
+  const children = user.filter((user) => user.age < 18);
+  showUsers(children);
+});
+
+// Обработчик события вывода всех пользователей
+showAllButton.addEventListener("click", () => {
+  showUsers(user);
+});
