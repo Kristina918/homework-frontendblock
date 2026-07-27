@@ -1,62 +1,73 @@
-// Данные
-const user = [
-  { name: "Анна", age: 25 },
-  { name: "Михаил", age: 15 },
-  { name: "Иван", age: 18 },
-  { name: "Мария", age: 32 },
-  { name: "Дмитрий", age: 12 },
-  { name: "София", age: 20 },
-];
+// Вы планируете выйти погулять днем. Если на улице дождь, то надо взять зонтик. Если на улице солнце, то надо взять солнечные очки.
 
-// Получение элементов из DOM
-let showAdultsButton = document.getElementById("showAdults");
-let showChildrenButton = document.getElementById("showChildren");
-let showAllButton = document.getElementById("showAll");
-let userList = document.getElementById("userList");
-function userAge(age) {
-  if (age >= 18) {
-    return "взрослый";
-  } else {
-    return "ребенок";
-  }
+// if
+
+let isFridgeEmpty = true;
+
+if (isFridgeEmpty === true) {
+  console.log("Холодильник пуст, надо сходить в магазин");
 }
 
-// Функция для отображения списка людей
+// if...else
 
-function showUsers(userArray) {
-  userList.innerHTML = "";
+let age = 15;
 
-  if (event.target.id === "showAll") {
-    userArray.sort((a, b) => a.age - b.age).forEach((user) => {
-      const listItem = document.createElement("li");
-      listItem.textContent = `${user.name}, ${user.age} лет, статус: ${userAge(user.age)}`;
-        userList.appendChild(listItem);
-       
-    });
-  } else {
-    userArray.forEach((user) => {
-      const listItem = document.createElement("li");
-      listItem.textContent = `${user.name}, ${user.age} лет`;
-      userList.appendChild(listItem);
-    });
-  }
+if (age >= 18) {
+  console.log("Доступ разрешён");
+} else {
+  console.log("Доступ запрещён");
 }
 
-// Обработчик события вывода взрослых
+// тернарный оператор для if...else
+let grade = 4;
 
-showAdultsButton.addEventListener("click", () => {
-  const adults = user.filter((user) => user.age >= 18);
-  showUsers(adults);
-});
+console.log(
+  grade === 5
+    ? "Отлично"
+    : grade === 4
+      ? "Хорошо"
+      : grade === 3
+        ? "Удовлетворительно"
+        : "Требуется пересдача",
+);
 
-// Обработчик события вывода детей
+let hour = 14;
 
-showChildrenButton.addEventListener("click", () => {
-  const children = user.filter((user) => user.age < 18);
-  showUsers(children);
-});
+console.log(hour < 12 ? "Доброе утро!" : "Добрый день!");
 
-// Обработчик события вывода всех пользователей
-showAllButton.addEventListener("click", () => {
-  showUsers(user);
-});
+// if...else if...else
+
+let weather = "cloudy";
+
+console.log(
+  weather === "rain"
+    ? "Возьмите зонтик"
+    : weather === "sunny"
+      ? "Возьмите солнечные очки"
+      : "Непонятно, что брать!",
+);
+
+
+
+// оператор switch
+/*
+let weather = "snow";
+
+switch (weather) {
+  case "rain":
+    console.log("Возьмите зонтик!");
+    break;
+  case "sunny":
+    console.log("Возьмите солнечные очки!");
+    break;
+  case "snow":
+    console.log("Наденьте пуховик и шапку!");
+    break;
+  case "cloudy":
+    console.log("Наденьте куртку!");
+    break;
+  default:
+    console.log("Непонятная погода, ничего не берите!");
+    break;
+}
+*/
