@@ -1,101 +1,92 @@
-let formSignUp = document.getElementById("signupForm");
+// Извлекает данные из localStorage или возвращает пустой массив
+function getFavorites() {
+  return JSON.parse(localStorage.getItem("favoriteTracks")) || [];
+}
 
-// Событие submit
+// Сохраняет обновлённый список избранного в localStorage
+function saveFavorites(favorites) {
+  localStorage.setItem("favoriteTracks", JSON.stringify(favorites));
+}
+const trackElements = document.querySelectorAll("#tracks .track");
+let trackTitle = document.querySelector("h2.tracks-title").appendChild(document.createElement("span")).innerHTML=`<span>${trackElements.length}</span>`;
 
-formSignUp.addEventListener("submit", function (event) {
-  event.preventDefault();
+// Обновляет отображение списка избранных треков и иконок
+function updateFavoritesDisplay() {
+  const favorites = getFavorites();
+  const favoritesBox = document.getElementById("favorites");
+  
 
-  // Список полей
-  let usernameInput = document.getElementById("username");
-  let username = document.getElementById("username").value;
-  let emailInput = document.getElementById("email");
-  let email = document.getElementById("email").value;
-  let passwordInput = document.getElementById("password");
-  let password = document.getElementById("password").value;
-  let confirmPasswordInput = document.getElementById("confirmPassword");
-  let confirmPassword = document.getElementById("confirmPassword").value;
+  favoritesBox.innerHTML = ""; // Очищаем блок избранных треков
 
-  // Блок для ошибок
-
-  let usernameError = document.getElementById("usernameError");
-  let emailError = document.getElementById("emailError");
-  let passwordError = document.getElementById("passwordError");
-  let confirmPasswordError = document.getElementById("confirmPasswordError");
-
-  // Сброс текста в ошибке
-  usernameError.textContent = "";
-  emailError.textContent = "";
-  passwordError.textContent = "";
-  confirmPasswordError.textContent = "";
-
-  let isValid = true;
-
-  // Условия для поля username
-
-  if (!username) {
-    usernameError.textContent = "Введите имя пользователя";
-    usernameInput.style.borderColor = "red";
-    isValid = false;
-  } else {
-    usernameInput.style.borderColor = "green";
+  const title = document.querySelector("h2.favorites-title");
+  let countSpan = title.querySelector("span");
+  if (!countSpan) {
+    countSpan = document.createElement("span");
+    title.appendChild(countSpan);
   }
-  if (username.length < 4) {
-    usernameError.textContent =
-      "Имя пользователя должно быть не менее 4 символов";
-    usernameInput.style.borderColor = "red";
-    isValid = false;
-  } else {
-    usernameInput.style.borderColor = "green";
+  countSpan.textContent = favorites.length ? ` ${favorites.length}` : "";
+
+  // Отображаем избранные треки
+  favorites.forEach((track) => {
+    const trackBox = document.createElement("div");
+    trackBox.className = "favorite";
+
+    const trackName = document.createElement("span");
+    trackName.textContent = track;
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Удалить";
+    removeButton.addEventListener("click", () => {
+      removeFavorite(track);
+      document.querySelectorAll("#tracks .track button").forEach((button) => {
+        button.classList.remove("shake");
+      });
+    });
+
+    trackBox.appendChild(trackName);
+    trackBox.appendChild(removeButton);
+    favoritesBox.appendChild(trackBox);
+  });
+
+  // Обновляем цвет иконок SVG
+  trackElements.forEach((trackElement) => {
+    const trackName = trackElement.querySelector("span").textContent;
+    const svg = trackElement.querySelector("svg");
+    svg.style.fill = favorites.includes(trackName) ? "#b4241a" : "#ffffff";
+  });
+}
+
+// Добавляет трек в избранное
+function addFavorite(trackName) {
+  const favorites = getFavorites();
+
+  if (!favorites.includes(trackName)) {
+    favorites.push(trackName);
+    saveFavorites(favorites);
+    updateFavoritesDisplay();
   }
+}
 
-  // Условия для поля email
+// Удаляет трек из избранного
+function removeFavorite(trackName) {
+  const favorites = getFavorites().filter((track) => track !== trackName);
+  saveFavorites(favorites);
+  updateFavoritesDisplay();
+}
 
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Добавляет обработчики для кнопок
+function initializeButtons() {
+  document.querySelectorAll("#tracks .track button").forEach((button) => {
+    const trackName = button.parentElement.querySelector("span").textContent;
+    button.addEventListener("click", () => {
+      addFavorite(trackName);
+      button.classList.add("shake");
+    });
+  });
+}
 
-  if (!email) {
-    emailError.textContent = "Введите email";
-    isValid = false;
-    emailInput.style.borderColor = "red";
-  } else if (!emailPattern.test(email)) {
-    emailError.textContent = "Некорректный email";
-    isValid = false;
-    emailInput.style.borderColor = "red";
-  } else {
-    emailInput.style.borderColor = "green";
-  }
-
-  // Условия для поля password
-
-  if (!password) {
-    passwordError.textContent = "Введите пароль";
-    isValid = false;
-    passwordInput.style.borderColor = "red";
-  } else if (password.length < 6) {
-    passwordError.textContent = "Пароль должен быть не менее 6 символов";
-    isValid = false;
-    passwordInput.style.borderColor = "red";
-  } else {
-    passwordInput.style.borderColor = "green";
-  }
-
-  // Условия для поля confirm password
-
-  if (password !== confirmPassword) {
-    confirmPasswordError.textContent = "Пароли не совпадают";
-    isValid = false;
-    confirmPasswordInput.style.borderColor = "red";
-  }
-  if (confirmPassword.length < 1) {
-    confirmPasswordError.textContent = "Установите пароль";
-    isValid = false;
-    confirmPasswordInput.style.borderColor = "red";
-  } else {
-    confirmPasswordInput.style.borderColor = "green";
-  }
-
-  // Проверка формы на true по всем условиям выше
-
-  if (isValid) {
-    alert("Форма отправлена успешно!");
-  }
-});
+// Инициализация при загрузке страницы
+window.onload = () => {
+  initializeButtons();
+  updateFavoritesDisplay();
+};
