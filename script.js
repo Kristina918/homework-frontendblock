@@ -1,41 +1,30 @@
-//1) Создайте класс Car. В constructor передавайте параметры: brand, model, year. Сохраните их в свойства this.brand, this.model и this.year.
+/*Домашнее задание:
 
-class Car {
-  constructor(brand, model, year) {
-    this.brand = brand;
-    this.model = model;
-    this.year = year;
-  }
-  getInfo() {
-    console.log(
-      `Марка: ${this.brand}, Модель: ${this.model}, Год выпуска: ${this.year}`,
-    );
-  }
-  startEngine() {
-    console.log("Двигатель запущен!");
-  }
-}
-const car1 = new Car("Toyota", "Camry", 2020);
-const car2 = new Car("BMW", "X5", 2022);
-const car3 = new Car("Mersedes", "C-class", 2015);
-car1.getInfo();
-car2.getInfo();
-car3.getInfo();
-car1.startEngine();
-car2.startEngine();
-car3.startEngine();
+Вам предоставлен API с курсами валют, относительно евро. Напишите небольшое приложение, которое отобразит данные о курсах валют, где в браузере пользователь увидит сверху строчку "евро = 1" (в апи эта цифра также есть), а ниже стоимость другой валюты, относительно евро:
 
-class ElectricCar extends Car {
+USD (доллар)
+RUB (рубль)
+AED (дирхам)
+THB (тайский бат)*/
 
-  constructor(brand, model, year,batteryCapacity) {
-    super(brand, model, year);
-    this.batteryCapacity = batteryCapacity;
-   
-  } startEngine() {
-    console.log("Электромотор запущен!");
-  }
-}
-const electricCar1 = new ElectricCar("Tesla", "Model S", 2020, 100);
-electricCar1.getInfo();
-electricCar1.startEngine();
+fetch(
+  "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json",
+)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    const rates = data.eur; // курсы внутри объекта eur
+    const currencyContainer = document.getElementById("currency");
 
+    currencyContainer.innerHTML = `
+      <p>евро = ${rates.eur}</p>
+      <p>USD (доллар) = ${rates.usd}</p>
+      <p>RUB (рубль) = ${rates.rub}</p>
+      <p>AED (дирхам) = ${rates.aed}</p>
+      <p>THB (тайский бат) = ${rates.thb}</p>
+    `;
+  })
+  .catch(function (error) {
+    console.error("Ошибка получении данных", error);
+  });
