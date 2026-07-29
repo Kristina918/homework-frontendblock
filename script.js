@@ -1,29 +1,30 @@
-/*Домашнее задание:
-
-Вам предоставлен API с курсами валют, относительно евро. Напишите небольшое приложение, которое отобразит данные о курсах валют, где в браузере пользователь увидит сверху строчку "евро = 1" (в апи эта цифра также есть), а ниже стоимость другой валюты, относительно евро:
-
-USD (доллар)
-RUB (рубль)
-AED (дирхам)
-THB (тайский бат)*/
-
-fetch(
-  "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json",
-)
+fetch("https://dummyjson.com/posts")
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
-    const rates = data.eur; // курсы внутри объекта eur
-    const currencyContainer = document.getElementById("currency");
+    let posts = data.posts;
+    let postsConttainer = document.getElementById("posts");
+    postsConttainer.innerHTML = "";
+    posts.forEach((post) => {
+      postsConttainer.innerHTML += `
+      <div class="posts-item">
+        <h2>${post.title}</h2>
+        <p>${post.body}</p>
+        <div class="posts-footer"><div class="tags">
 
-    currencyContainer.innerHTML = `
-      <p>евро = ${rates.eur}</p>
-      <p>USD (доллар) = ${rates.usd}</p>
-      <p>RUB (рубль) = ${rates.rub}</p>
-      <p>AED (дирхам) = ${rates.aed}</p>
-      <p>THB (тайский бат) = ${rates.thb}</p>
-    `;
+        ${post.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+      
+          
+        </div>
+        <div class="posts-info">
+        <p class="posts-icon like"> ${post.reactions.likes}</p>
+        <p class="posts-icon dislike"> ${post.reactions.dislikes}</p>
+        <p class="posts-icon view"> ${post.views}</p>
+        </div> </div>
+      </div>
+      `;
+    });
   })
   .catch(function (error) {
     console.error("Ошибка получении данных", error);
